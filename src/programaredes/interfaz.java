@@ -17,6 +17,7 @@ public class interfaz extends javax.swing.JFrame {
     String aux[] = {};
     int aux_2[] = new int[4];
     validar v = new validar();
+    boolean control = false;
 
     public interfaz() {
         initComponents();
@@ -31,8 +32,8 @@ public class interfaz extends javax.swing.JFrame {
         listRedes.setModel(listaRedes);
         v.validarNum(txtIp);
         v.validarNum(txtMascara);
-        v.limitarCaracteres(txtIp,15);
-        v.limitarCaracteres(txtMascara,15);
+        v.limitarCaracteres(txtIp, 15);
+        v.limitarCaracteres(txtMascara, 15);
 
     }
 
@@ -147,7 +148,7 @@ public class interfaz extends javax.swing.JFrame {
 
     private void bntAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAgregarActionPerformed
 
-        if (txtIp.getText().isEmpty() || txtIp.getText().length()<11 || txtMascara.getText().isEmpty() || txtMascara.getText().length()<13 ) {
+        if (txtIp.getText().isEmpty() || txtIp.getText().length() < 11 || txtMascara.getText().isEmpty() || txtMascara.getText().length() < 13) {
             JOptionPane.showMessageDialog(null, "Completa todos los campos");
         } else {
             int respuesta = 0;
@@ -160,7 +161,6 @@ public class interfaz extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bntAgregarActionPerformed
 
-    
     /**
      * @param args the command line arguments
      */
@@ -177,7 +177,7 @@ public class interfaz extends javax.swing.JFrame {
     private void agregarIps(String ip, String mascara) {
         aux = ip.split("\\.");
         aux_1 = mascara.split("\\.");
-        if (aux.length == 4 && aux_1.length == 4) {
+        if (aux.length == 4 ) {
             obtenerRed(aux, aux_1);
             JOptionPane.showMessageDialog(null, "Operacion realizada correctamente!");
             //listaRedes.removeAllElements();
@@ -203,17 +203,32 @@ public class interfaz extends javax.swing.JFrame {
 
         if (!redes.contains(red)) {
             redes.add(red);
-            listaRedes.addElement("Red " + red);
-            listaRedes.addElement("Ip " + txtIp.getText() + " Mascara: " + txtMascara.getText());
-
+            ips.add(txtIp.getText());
+            mask.add(txtMascara.getText());
+            imprimir(redes, ips,mask);
+            
             System.out.println("Tam: " + redes.size());
-            red = "";
         } else {
+            int pos = redes.indexOf(red);
+            String auxIp = ips.get(pos);
+            ips.remove(pos);
 
-            System.out.println("Ya esta dentro");
-            red = "";
+            ips.add(pos, txtIp.getText() + "  :  " +  auxIp);
+            imprimir(redes, ips,mask);
+            control = true;
         }
+         red = "";
+    }
 
+    private void imprimir(List listRedes, List listIps, List listMascara) {
+        listaRedes.removeAllElements();
+        for (int i = 0; i < listRedes.size(); i++) {
+            listaRedes.addElement("RED ->           " + listRedes.get(i));
+            listaRedes.addElement("IPS ->           " + listIps.get(i));
+            listaRedes.addElement("Mascara ->       " + listMascara.get(i));
+            listaRedes.addElement("----------------------------------------------------------------------------------");
+        }
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,7 +245,4 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JTextField txtMascara;
     // End of variables declaration//GEN-END:variables
 
-    private validar validar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
