@@ -17,7 +17,6 @@ public class interfaz extends javax.swing.JFrame {
     String aux[] = {};
     int aux_2[] = new int[4];
     validar v = new validar();
-    boolean control = false;
 
     public interfaz() {
         initComponents();
@@ -212,10 +211,8 @@ public class interfaz extends javax.swing.JFrame {
             int pos = redes.indexOf(red);
             String auxIp = ips.get(pos);
             ips.remove(pos);
-
             ips.add(pos, txtIp.getText() + "  :  " +  auxIp);
             imprimir(redes, ips,mask);
-            control = true;
         }
          red = "";
     }
